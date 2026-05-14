@@ -1,90 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover top fashion products in various categories at Fashion.net. Shop the latest trends in women's fashion, men's fashion, and more.">
+    <meta name="description" content="Discover top fashion products in various categories at Fashion.net.">
     <title>Fashion.net - Checkout</title>
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- CHANGED: /static/styles.css → ./styles.css -->
+    <link rel="stylesheet" href="./styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        /* Header and Footer styles */
-        header {
-            background-color: black;
-            color: white;
-        }
-
-        footer {
-            font-size: 12px;
-            justify-content: center;
-            background-color: black;
-            color: white;
-            padding: 10px 0;
-        }
-
-        .navbar-brand {
-            font-size: 20px;
-            text-align: center;
-        }
-
-        /* Product Grid */
-        .product-item {
-            margin-bottom: 15px;
-        }
-
-        /* Checkout Form */
+        header { background-color: black; color: white; }
+        footer { font-size: 12px; justify-content: center; background-color: black; color: white; padding: 10px 0; }
+        .navbar-brand { font-size: 20px; text-align: center; }
+        .product-item { margin-bottom: 15px; }
         .checkout-form {
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px; background-color: #f8f9fa;
+            border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         .product-details {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
+            display: flex; justify-content: space-between;
+            padding: 10px; border-bottom: 1px solid #ddd;
         }
-
-        .product-details img {
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-
-        .checkout-summary {
-            margin-top: 20px;
-        }
+        .product-details img { width: 50px; height: 50px; border-radius: 5px; margin-right: 10px; }
+        .checkout-summary { margin-top: 20px; }
     </style>
 </head>
 
 <body>
-    <!-- Header with Navbar -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="#">Fashion.net</a>
         </nav>
     </header>
 
-    <!-- Main Content -->
     <section id="checkout-section" class="container">
         <h3 class="checkout-heading">Enter Your Details Here for Checkout</h3>
 
-        <!-- Checkout Form -->
         <form class="checkout-form">
             <div class="form-group">
                 <label for="country-region">Country/Region</label>
@@ -111,17 +66,14 @@
                 <input type="text" id="phone" class="form-control" required>
             </div>
 
-            <!-- Payment Option -->
             <div>
                 <h4>Payment Option:</h4>
                 <p>Cash on delivery (COD) available only</p>
             </div>
 
-            <!-- Order Summary -->
             <h4>Order Summary</h4>
             <div id="order-summary"></div>
 
-            <!-- Subtotal, Shipping, Total -->
             <div class="checkout-summary">
                 <div class="product-details">
                     <span><strong>Subtotal:</strong></span>
@@ -137,32 +89,27 @@
                 </div>
             </div>
 
-            <!-- Complete Order Button -->
             <div class="form-group">
                 <button type="button" id="complete-order-btn" class="btn btn-success" onclick="completeOrder()">Complete Order</button>
             </div>
         </form>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p class="text-center">All rights reserved. Fashion.net © 2024</p>
     </footer>
 
     <script>
-        // Get cart data from localStorage
         function getCart() {
             return JSON.parse(localStorage.getItem('cart')) || [];
         }
-    
-        // Display order summary
+
         function displayOrderSummary() {
             const cart = getCart();
             const orderSummary = document.getElementById('order-summary');
             let subtotal = 0;
-    
             orderSummary.innerHTML = '';
-    
+
             cart.forEach(item => {
                 const productDiv = document.createElement('div');
                 productDiv.className = 'product-details';
@@ -176,23 +123,19 @@
                 orderSummary.appendChild(productDiv);
                 subtotal += parseFloat(item.price);
             });
-    
+
             document.getElementById('subtotal').innerText = `PKR ${subtotal.toFixed(2)}`;
-            const total = subtotal + 199; // Add shipping cost
+            const total = subtotal + 199;
             document.getElementById('total-price').innerText = `PKR ${total.toFixed(2)}`;
         }
-    
-        // Complete Order
-function completeOrder() {
-    // Alert the user and redirect to the login page
-    alert('You must be logged in to place an order.');
-    window.location.href = '/login'; // Redirect to the login.html
-}
 
-        // Initialize the page
+        function completeOrder() {
+            // CHANGED: /login → login.html
+            alert('You must be logged in to place an order.');
+            window.location.href = 'login.html';
+        }
+
         displayOrderSummary();
     </script>
-    
 </body>
-
 </html>

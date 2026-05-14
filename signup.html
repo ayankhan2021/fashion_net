@@ -5,58 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fashion.net | Sign Up</title>
     <style>
-        body {
-            background-color: #f9f9f9;
-            font-family: 'Arial', sans-serif;
-        }
+        body { background-color: #f9f9f9; font-family: 'Arial', sans-serif; }
         .signup-container {
-            max-width: 500px;
-            margin: 50px auto;
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+            max-width: 500px; margin: 50px auto; background-color: white;
+            padding: 20px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); border-radius: 10px;
         }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
+        h2 { text-align: center; margin-bottom: 20px; color: #333; }
+        label { display: block; margin-bottom: 5px; color: #333; }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%; padding: 10px; margin-bottom: 20px;
+            border: 1px solid #ccc; border-radius: 5px; font-size: 1em;
         }
         input[type="submit"] {
-            width: 100%;
-            padding: 15px;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1em;
+            width: 100%; padding: 15px; background-color: #333;
+            color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em;
         }
-        input[type="submit"]:hover {
-            background-color: #4CAF50;
-        }
+        input[type="submit"]:hover { background-color: #4CAF50; }
         .error {
-            text-align: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #f8d7da;
-            color: #721c24;
+            text-align: center; margin-bottom: 10px; padding: 10px;
+            border-radius: 5px; background-color: #f8d7da; color: #721c24;
+        }
+        .success {
+            text-align: center; margin-bottom: 10px; padding: 10px;
+            border-radius: 5px; background-color: #d4edda; color: #155724;
         }
     </style>
 </head>
@@ -65,12 +36,11 @@
 <div class="signup-container">
     <h2>Create Your Account</h2>
 
-    <!-- Display error messages -->
-    {% if error %}
-    <div class="error">{{ error }}</div>
-    {% endif %}
+    <!-- CHANGED: Jinja {% if error %} removed; messages shown via JS instead -->
+    <div id="messageBox"></div>
 
-    <form action="{{ url_for('signup') }}" method="POST">
+    <!-- CHANGED: action="{{ url_for('signup') }}" removed; handled by JS -->
+    <form onsubmit="handleSignup(event)">
         <label for="username">Full Name:</label>
         <input type="text" id="username" name="username" placeholder="Enter your full name" required>
 
@@ -88,17 +58,24 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const success = "{{ 'true' if success else 'false' }}";  // Ensure quotes for JavaScript
-        const error = "{{ error if error else '' }}";  // Pass error as a string
+function handleSignup(event) {
+    event.preventDefault();
+    const messageBox = document.getElementById("messageBox");
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirm-password").value;
 
-        if (success === "true") {
-            alert("Order Successful! Redirecting to the homepage...");
-            window.location.href = "{{ url_for('home') }}";  // Redirect to index.html
-        } else if (error) {
-            alert(error);  // Show error message in alert
-        }
-    });
+    messageBox.innerHTML = "";
+
+    if (password !== confirm) {
+        messageBox.innerHTML = `<div class="error">Passwords do not match.</div>`;
+        return;
+    }
+
+    // NOTE: This is a static frontend — no real signup without a backend.
+    // To connect to a backend, send a fetch/POST request here.
+    messageBox.innerHTML = `<div class="success">Account created! Redirecting...</div>`;
+    setTimeout(() => { window.location.href = "index.html"; }, 1500);
+}
 </script>
 
 </body>
