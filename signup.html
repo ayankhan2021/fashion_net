@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fashion.net | Sign Up</title>
     <style>
-        body { background-color: #f9f9f9; font-family: 'Arial', sans-serif; }
+        body { background-color: #f9f9f9; font-family: Arial, sans-serif; }
         .signup-container {
-            max-width: 500px; margin: 50px auto; background-color: white;
-            padding: 20px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); border-radius: 10px;
+            max-width: 500px; margin: 50px auto;
+            background-color: white; padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
         }
         h2 { text-align: center; margin-bottom: 20px; color: #333; }
         label { display: block; margin-bottom: 5px; color: #333; }
@@ -16,67 +18,76 @@
             width: 100%; padding: 10px; margin-bottom: 20px;
             border: 1px solid #ccc; border-radius: 5px; font-size: 1em;
         }
-        input[type="submit"] {
+        button[type="submit"] {
             width: 100%; padding: 15px; background-color: #333;
-            color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em;
+            color: white; border: none; border-radius: 5px;
+            cursor: pointer; font-size: 1.1em;
         }
-        input[type="submit"]:hover { background-color: #4CAF50; }
-        .error {
-            text-align: center; margin-bottom: 10px; padding: 10px;
-            border-radius: 5px; background-color: #f8d7da; color: #721c24;
-        }
-        .success {
-            text-align: center; margin-bottom: 10px; padding: 10px;
-            border-radius: 5px; background-color: #d4edda; color: #155724;
-        }
+        button[type="submit"]:hover { background-color: #4CAF50; }
+        .error { background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; text-align: center; display: none; }
+        .success { background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; text-align: center; display: none; }
     </style>
 </head>
 <body>
-
 <div class="signup-container">
     <h2>Create Your Account</h2>
+    <div class="error" id="error-msg"></div>
+    <div class="success" id="success-msg"></div>
 
-    <!-- CHANGED: Jinja {% if error %} removed; messages shown via JS instead -->
-    <div id="messageBox"></div>
-
-    <!-- CHANGED: action="{{ url_for('signup') }}" removed; handled by JS -->
-    <form onsubmit="handleSignup(event)">
+    <form id="signup-form">
         <label for="username">Full Name:</label>
-        <input type="text" id="username" name="username" placeholder="Enter your full name" required>
+        <input type="text" id="username" placeholder="Enter your full name" required>
 
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <input type="email" id="email" placeholder="Enter your email" required>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <input type="password" id="password" placeholder="Enter your password" required>
 
         <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+        <input type="password" id="confirm-password" placeholder="Confirm your password" required>
 
-        <input type="submit" value="Sign Up">
+        <button type="submit">Sign Up</button>
     </form>
 </div>
 
 <script>
-function handleSignup(event) {
-    event.preventDefault();
-    const messageBox = document.getElementById("messageBox");
-    const password = document.getElementById("password").value;
-    const confirm = document.getElementById("confirm-password").value;
+const USER_SERVICE = 'https://fashion-user-service-audqffe9dve4dscm.southeastasia-01.azurewebsites.net';
 
-    messageBox.innerHTML = "";
+document.getElementById('signup-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm-password').value;
 
     if (password !== confirm) {
-        messageBox.innerHTML = `<div class="error">Passwords do not match.</div>`;
+        document.getElementById('error-msg').style.display = 'block';
+        document.getElementById('error-msg').innerText = 'Passwords do not match!';
         return;
     }
 
-    // NOTE: This is a static frontend — no real signup without a backend.
-    // To connect to a backend, send a fetch/POST request here.
-    messageBox.innerHTML = `<div class="success">Account created! Redirecting...</div>`;
-    setTimeout(() => { window.location.href = "index.html"; }, 1500);
-}
-</script>
+    try {
+        const resp = await fetch(`${USER_SERVICE}/api/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password })
+        });
+        const data = await resp.json();
 
+        if (data.success) {
+            document.getElementById('success-msg').style.display = 'block';
+            document.getElementById('success-msg').innerText = 'Account created! Redirecting to login...';
+            setTimeout(() => window.location.href = 'login.html', 1500);
+        } else {
+            document.getElementById('error-msg').style.display = 'block';
+            document.getElementById('error-msg').innerText = data.error || 'Signup failed!';
+        }
+    } catch(err) {
+        document.getElementById('error-msg').style.display = 'block';
+        document.getElementById('error-msg').innerText = 'Service unavailable. Try again.';
+    }
+});
+</script>
 </body>
 </html>
