@@ -267,7 +267,7 @@ function addToCart(id, name, image, price) {
                 const cartItem = document.createElement('div');
                 cartItem.className = 'cart-item';
                 cartItem.innerHTML = `
-                    <h4>${item.name} (Size: ${item.size})</h4>
+                    <h4>${item.name}</h4>
                     <img src="${item.image}" alt="${item.name}" width="50">
                     <p>Price: ${item.price} PKR</p>
                     <p>Quantity: ${item.quantity}</p>
