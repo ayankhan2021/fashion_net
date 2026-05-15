@@ -56,43 +56,24 @@
 </div>
 
 <script>
-const USER_SERVICE = 'https://fashion-user-service-audqffe9dve4dscm.southeastasia-01.azurewebsites.net';
+function loginUser(event) {
+    event.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const messageBox = document.getElementById("messageBox");
+    messageBox.innerHTML = "";
 
-document.getElementById('login-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const errorMsg = document.getElementById('error-msg');
-    const successMsg = document.getElementById('success-msg');
-    
-    errorMsg.style.display = 'none';
-    successMsg.style.display = 'none';
+    if (!email || !password) {
+        messageBox.innerHTML = `<div class="error">Please fill all fields</div>`;
+        return;
+    }
 
-    try {
-        const resp = await fetch(`${USER_SERVICE}/api/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-        
-        const data = await resp.json();
-        
-        if (data.success) {
-            localStorage.setItem('customer_id', data.customer_id);
-            localStorage.setItem('username', data.username);
-            localStorage.setItem('isLoggedIn', 'true');
-            successMsg.style.display = 'block';
-            successMsg.innerText = `Welcome ${data.username}!`;
-            setTimeout(() => window.location.href = 'index.html', 1500);
-        } else {
-            errorMsg.style.display = 'block';
-            errorMsg.innerText = 'Invalid email or password!';
-        }
-    } catch(err) {
-        errorMsg.style.display = 'block';
-        errorMsg.innerText = 'Service unavailable. Try again later.';
-        console.error('Login error:', err);
+    // Demo-only check — replace with real auth when you have a backend
+    if (email === "admin@example.com" && password === "1234") {
+        messageBox.innerHTML = `<div class="success">Login successful! Redirecting...</div>`;
+        setTimeout(() => { window.location.href = "/"; }, 1500);
+    } else {
+        messageBox.innerHTML = `<div class="error">Invalid email or password</div>`;
     }
 });
 </script>
