@@ -171,113 +171,80 @@
     </footer>
 
     <script>
-        const brandCategories = {
-            ETHNIC: {
-                EveryWear: [
-                    { name: "Classic Daily Fit", image: "https://cdn.shopify.com/s/files/1/1592/0041/files/002PDY23V411_1.webp?v=1687263885", description: "A timeless, comfortable outfit designed for effortless everyday style.", price: "PKR 2250", sizes: ['S', 'M', 'L'] },
-                    { name: "Co-ord set", image: "https://buraqstore.com/cdn/shop/files/IMG_4265-1-scaled.webp?v=1720725621", description: "A perfectly matched look with minimal effort.", price: "PKR 4500", sizes: ['M', 'L', 'XL'] },
-                    { name: "Boutique - Wedding Edition", image: "https://pk.ethnc.com/cdn/shop/files/E0280-104_1.jpg?v=1686649632", description: "Wedding Edition exudes elegance and charm, crafted for unforgettable celebrations.", price: "PKR 17000", sizes: ['S', 'M'] }
-                ],
-                Footwear: [
-                    { name: "Khussas", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoHRS-WefMNTRyH2PRVLYybXGM56v7ckU29g&s", description: "Traditional handcrafted shoes made from high-quality leather with intricate embroidery.", price: "PKR 1700", sizes: [7, 8, 9, 10] },
-                    { name: "Sandals", image: "https://outfitters.com.pk/cdn/shop/files/F0062612007_4.jpg?v=1692683083", description: "Perfect for warm weather in various styles for casual or dressier occasions.", price: "PKR 3000", sizes: [7, 8, 9, 10, 11] },
-                    { name: "Shoes", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrR_VvLy3HYbsqzU7IKn8M5CQhguNszaK1pQ&s", description: "Stylish and durable, designed to provide comfort and support for every step.", price: "PKR 5000", sizes: [7, 8, 9, 10, 11] }
-                ]
-            },
-            ZELLBURY: {
-                Suits: [
-                    { name: "Embroided suit", image: "https://cdn-live.sanaullastore.com/products/product_images/zellbury-unstitched-luxury-collection-2023-d-30355-_1_.jpg%3Fwidth%3D640", description: "Embroidered lawn suit with modern elegance, perfect for warm weather.", price: "PKR 5000", sizes: ['S', 'M', 'L'] },
-                    { name: "Printed suit", image: "https://zellbury.com/cdn/shop/files/WUC24X30118-1.jpg?v=1724737335", description: "Lightweight fabric with vibrant patterns, perfect for casual and semi-formal occasions.", price: "PKR 2300", sizes: ['S', 'M', 'L', 'XL'] },
-                    { name: "Unstiched", image: "https://faisalfabrics.pk/cdn/shop/files/WUS24E31247-3.jpg?v=1720110071", description: "Premium lawn fabric with shirt, trousers and chiffon dupatta.", price: "PKR 3500", sizes: ['XS', 'M', 'L', 'XL'] }
-                ],
-                Bags: [
-                    { name: "Tote bag", image: "https://zellbury.com/cdn/shop/files/WBT22E299-BLACK-LS-2.jpg?v=1718005942", description: "High-quality material with a sleek, minimalist design for all your essentials.", price: "PKR 2000", sizes: [] },
-                    { name: "Cross-body bag", image: "https://zellbury.com/cdn/shop/files/WBC22E288-GREEN-1.jpg?v=1718011580", description: "Sleek compact design with adjustable straps and a secure closure.", price: "PKR 2200", sizes: [] },
-                    { name: "Canvas bag", image: "https://zellbury.com/cdn/shop/files/WBT22E374_1.jpg?v=1724499885&width=1445", description: "Spacious interior and sturdy straps for easy carrying, perfect for everyday use.", price: "PKR 2600", sizes: [] }
-                ]
-            },
-            SAPPHIRE: {
-                LuxuryPret: [
-                    { name: "Luxe-Formal wear", image: "https://faisalfabrics.pk/cdn/shop/products/PLM07625_02883aef-2889-4d6d-a1af-f8f54771c96d.jpg?v=1708554737", description: "Elegant luxury wear with premium fabrics and intricate detailing for special occasions.", price: "PKR 15000", sizes: ['S', 'M', 'L', 'XL'] },
-                    { name: "Coat Style", image: "https://www.nameerabyfarooq.com/cdn/shop/files/BuyCrystalWhiteEmbroideredPakistaniWeddingDressinJacketStyle_620x.jpg?v=1696000843", description: "A chic coat dress with a sleek silhouette and tailored lapels.", price: "PKR 25000", sizes: ['M', 'L', 'XL'] },
-                    { name: "Saree", image: "https://static.wixstatic.com/media/4594f8_c69ecd10fa4a480fb87719cefa5aeb58~mv2.jpg/v1/fill/w_480,h_640,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/4594f8_c69ecd10fa4a480fb87719cefa5aeb58~mv2.jpg", description: "A classic saree with elegant draping and intricate details.", price: "PKR 11000", sizes: ['M', 'L', 'XL'] }
-                ],
-                Cosmetics: [
-                    { name: "Lipstick", image: "https://pk.sapphireonline.pk/cdn/shop/files/000000CML009_1_a91633df-d9ec-4ca9-bd90-208c4ec7f54d_grande.jpg?v=1689314982", description: "Bold, hydrating lipstick for all-day allure.", price: "PKR 1800", sizes: [] },
-                    { name: "Mascara", image: "https://cdn.shopify.com/s/files/1/1592/0041/files/mascara_1.jpg?v=1685340682", description: "Elevate every lash — infinite drama.", price: "PKR 1000", sizes: [] },
-                    { name: "BB cream", image: "https://bagallery.com/cdn/shop/products/CREAMTAN_1_98457691-18cf-41b6-b3f8-331b67d74500.jpg?v=1659686021", description: "Lightweight BB cream that evens skin tone, hydrates, and provides sun protection.", price: "PKR 1200", sizes: [] }
-                ]
-            },
-            OUTFITTERS: {
-                Men: [
-                    { name: "Street Fit", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpSRf6GtWyS9wFB_vVNKZukU7LP5ubXW8GlS8NhUrNOnzTKQnVJfb9yJly-zDmAlsGRzY&usqp=CAU", description: "A relaxed, urban-inspired look for everyday casual style.", price: "PKR 4000", sizes: ['S', 'M', 'L'] },
-                    { name: "Relaxed Fit Jeans", image: "https://outfitters.com.pk/cdn/shop/files/F0420109630_3.jpg?v=1717046236&width=533", description: "Comfortable jeans balancing comfort and laid-back style for all-day wear.", price: "PKR 1300", sizes: ['S', 'M', 'L'] },
-                    { name: "Printed Viscose shirt", image: "https://outfitters.com.pk/cdn/shop/files/F0508103999.jpg?v=1708410062", description: "A lightweight, soft-drape shirt with vibrant patterns for a casual yet stylish look.", price: "PKR 900", sizes: ['S', 'M', 'L', 'XL'] }
-                ],
-                Women: [
-                    { name: "Drip", image: "https://outfitters.com.pk/cdn/shop/files/F0316203901_1.jpg?v=1724150626&width=533", description: "Designed for versatility, transitioning effortlessly from casual wear to chic outings.", price: "PKR 3000", sizes: ['XS', 'M', 'L', 'XL'] },
-                    { name: "Women Jacket", image: "https://outfitters.com.pk/cdn/shop/files/F0100201901M_1.jpg?v=1701408107&width=533", description: "A stylish cropped jacket with tailored lapels for a polished touch.", price: "PKR 4000", sizes: ['XS', 'M', 'L', 'XL'] },
-                    { name: "Jumpsuit", image: "https://outfitters.com.pk/cdn/shop/files/F0056204998_2.jpg?v=1712139495", description: "A versatile one-piece for both relaxed and sophisticated looks.", price: "PKR 2000", sizes: ['XS', 'M', 'L', 'XL'] }
-                ]
-            },
-            SAYA: {
-                DesiMen: [
-                    { name: "Kurta Shalwar", image: "https://saya.pk/cdn/shop/files/GFC-AJ-119-1.jpg?v=1729936353", description: "A traditional kurta paired with comfortable shalwar, perfect for casual or festive occasions.", price: "PKR 5000", sizes: ['S', 'M', 'L', 'XL'] },
-                    { name: "Sherwani", image: "https://img.perniaspopupshop.com/catalog/product/s/e/SEGCM042208_1.jpg?impolicy=detailimageprod", description: "Luxurious embroidered outfit perfect for weddings and special occasions.", price: "PKR 12000", sizes: ['S', 'M', 'L', 'XL'] },
-                    { name: "Shalwar Kameez", image: "https://rabazka.com/cdn/shop/files/MenProduct_0008_DSC09421.jpg?v=1695116075", description: "A traditional comfortable outfit perfect for casual or cultural occasions.", price: "PKR 3000", sizes: ['S', 'M', 'L', 'XL'] }
-                ],
-                Accessories: [
-                    { name: "Antique jewellery", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYdwzK-JUai-6E_sIqzmYsZoCjOMEt8PHyeg&s", description: "A vintage, timeless piece with intricate detailing, perfect for adding elegance.", price: "PKR 3500", sizes: [] },
-                    { name: "Pearl Bangles", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTajCd2cC4Qc7Y0BU0TrfFdm0FQavHy9poe0A&s", description: "Elegant pearl-adorned bangles adding a timeless and classic touch.", price: "PKR 1500", sizes: [] },
-                    { name: "Hoops", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTC9SrTPaL5uCGa1QZMnW0oPeQrqYFlLtwFXA&s", description: "Stylish hoops that add a bold and elegant statement to any look.", price: "PKR 400", sizes: [] }
-                ]
-            }
-        };
+        const PRODUCT_API_BASE = 'https://fashion-product-service-b7atcad9dfe8g5e3.southeastasia-01.azurewebsites.net/api';
 
         let cart = [];
 
-        function showCategories(brand) {
-            const brandName = document.getElementById('brand-name');
-            const subcategories = document.getElementById('subcategories');
-            const categoriesDiv = document.getElementById('categories');
-            brandName.innerText = brand;
-            subcategories.innerHTML = '';
-            Object.keys(brandCategories[brand]).forEach(category => {
-                const categoryLink = document.createElement('span');
-                categoryLink.className = 'subcategory-link';
-                categoryLink.innerText = category;
-                categoryLink.onclick = () => showProducts(brand, category);
-                subcategories.appendChild(categoryLink);
-            });
-            categoriesDiv.style.display = 'block';
-        }
+        async function showCategories(brand) {
+    const brandName = document.getElementById('brand-name');
+    const productGrid = document.getElementById('product-grid');
+    const categoriesDiv = document.getElementById('categories');
+    
+    brandName.innerText = brand;
+    productGrid.innerHTML = '<p>Loading products...</p>'; // Loading state
+    categoriesDiv.style.display = 'block';
+    
+    // Clear subcategories as we will show all products for the brand
+    document.getElementById('subcategories').innerHTML = ''; 
 
-        function showProducts(brand, category) {
-            const productGrid = document.getElementById('product-grid');
-            productGrid.innerHTML = '';
-            brandCategories[brand][category].forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                let sizeDropdownHTML = '';
-                if (product.sizes && product.sizes.length > 0) {
-                    sizeDropdownHTML = `
-                        <label for="size-${product.name}">Select Size:</label>
-                        <select id="size-${product.name}" class="size-dropdown">
-                            ${product.sizes.map(size => `<option value="${size}">${size}</option>`).join('')}
-                        </select>
-                    `;
-                }
-                productCard.innerHTML = `
-                    <h4>${product.name}</h4>
-                    <img src="${product.image}" alt="${product.name}" class="product-image">
-                    <p>${product.description}</p>
-                    <p>Price: ${convertToPKR(product.price)} PKR</p>
-                    ${sizeDropdownHTML}
-                    <button class="cart-button" onclick="addToCart('${product.name}', '${product.image}', '${convertToPKR(product.price)}')">Add to Cart</button>
-                `;
-                productGrid.appendChild(productCard);
-            });
-        }
+    try {
+        const response = await fetch(`${PRODUCT_API_BASE}/brands/${brand.toLowerCase()}/products`);
+        if (!response.ok) throw new Error('Failed to fetch products');
+        
+        const products = await response.json();
+        renderProducts(products);
+
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        productGrid.innerHTML = '<p style="color:red;">Error loading products. Please try again.</p>';
+    }
+}
+
+function renderProducts(products) {
+    const productGrid = document.getElementById('product-grid');
+    productGrid.innerHTML = '';
+
+    if (products.length === 0) {
+        productGrid.innerHTML = '<p>No products available for this brand.</p>';
+        return;
+    }
+
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        
+        // Use a placeholder image if your DB doesn't store image URLs yet
+        const imageUrl = product.image_url || 'https://via.placeholder.com/200'; 
+        
+        // Assuming your DB has a 'quantity' field for stock
+        const isOutOfStock = product.quantity <= 0;
+        const buttonHTML = isOutOfStock 
+            ? `<button class="cart-button" style="background-color: grey;" disabled>Out of Stock</button>`
+            : `<button class="cart-button" onclick="addToCart('${product.product_id}', '${product.product_name}', '${imageUrl}', '${product.price}')">Add to Cart</button>`;
+
+        productCard.innerHTML = `
+            <h4>${product.product_name}</h4>
+            <img src="${imageUrl}" alt="${product.product_name}" class="product-image">
+            <p>${product.description || product.product_type || ''}</p>
+            <p class="price">PKR ${product.price}</p>
+            ${buttonHTML}
+        `;
+        productGrid.appendChild(productCard);
+    });
+}
+
+// Update addToCart to store product_id, which the Order Service needs
+function addToCart(id, name, image, price) {
+    const existingItemIndex = cart.findIndex(item => item.id === id);
+    if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity += 1;
+    } else {
+        cart.push({ id, name, image, price, quantity: 1 });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${name} added to cart!`);
+    displayCart();
+}
 
         function convertToPKR(price) {
             if (!price) return "N/A";
@@ -286,19 +253,7 @@
             return "N/A";
         }
 
-        function addToCart(name, image, price) {
-            const sizeDropdown = document.getElementById(`size-${name}`);
-            const selectedSize = sizeDropdown ? sizeDropdown.value : 'One Size';
-            const existingItemIndex = cart.findIndex(item => item.name === name && item.size === selectedSize);
-            if (existingItemIndex !== -1) {
-                cart[existingItemIndex].quantity += 1;
-            } else {
-                cart.push({ name, image, price, size: selectedSize, quantity: 1 });
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            alert(`${name} (Size: ${selectedSize}) added to cart!`);
-            displayCart();
-        }
+        
 
         function displayCart() {
             const cartItems = document.getElementById('cart-items');
