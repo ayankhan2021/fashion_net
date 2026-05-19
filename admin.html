@@ -3,58 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Fashion.net - Master Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        body { font-family: Arial, sans-serif; }
-        .sidebar { height: 100vh; width: 250px; background: #343a40; color: white; position: fixed; display: flex; flex-direction: column; justify-content: space-between; }
-        .sidebar a { display: block; padding: 10px 15px; color: white; text-decoration: none; }
-        .sidebar a:hover { background: #495057; text-decoration: none; }
-        .main { margin-left: 250px; padding: 20px; }
-        .table-wrapper { margin-top: 20px; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; }
+        .sidebar { height: 100vh; width: 250px; background: #212529; color: white; position: fixed; display: flex; flex-direction: column; justify-content: space-between; }
+        .sidebar a { display: block; padding: 15px 20px; color: #adb5bd; text-decoration: none; font-weight: 500; cursor: pointer; border-left: 3px solid transparent; }
+        .sidebar a:hover, .sidebar a.active { background: #343a40; color: #fff; border-left: 3px solid #0d6efd; }
+        .main { margin-left: 250px; padding: 30px; }
+        .table-wrapper { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 20px; display: none; }
+        .table-wrapper.active { display: block; }
+        .status-badge { padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
+        .status-online { background-color: #d1e7dd; color: #0f5132; }
+        .status-offline { background-color: #f8d7da; color: #842029; }
+        .card-box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div>
-            <h3 class="text-center mt-3">Admin Dashboard</h3>
-            <a href="#customers">Customers</a>
-            <a href="#order-history">Order History</a>
-            <a href="#products">All Products</a>
+            <h4 class="text-center mt-4 mb-4 text-white">⚙️ Fashion.net</h4>
+            <a onclick="showSection('dashboard')" id="nav-dashboard" class="active">📊 System Health</a>
+            <a onclick="showSection('customers')" id="nav-customers">👥 Customers</a>
+            <a onclick="showSection('products')" id="nav-products">👗 Products Inventory</a>
+            <a onclick="showSection('orders')" id="nav-orders">📦 Order History</a>
         </div>
-        <button onclick="adminLogout()" class="btn btn-danger mt-auto m-3">Logout</button>
+        <button onclick="adminLogout()" class="btn btn-outline-danger mt-auto m-3">Logout</button>
     </div>
 
     <div class="main">
-        <h1>Welcome to Admin Dashboard</h1>
+        <h2 class="mb-4 text-dark" id="page-title">System Health & APIs</h2>
+
+        <div id="dashboard" class="table-wrapper active">
+            <h5 class="mb-3">Microservices Status</h5>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card-box text-center">
+                        <h6>User Service</h6>
+                        <span id="status-user" class="status-badge status-offline">Checking...</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-box text-center">
+                        <h6>Product Service</h6>
+                        <span id="status-product" class="status-badge status-offline">Checking...</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-box text-center">
+                        <h6>Order Service</h6>
+                        <span id="status-order" class="status-badge status-offline">Checking...</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-box text-center">
+                        <h6>Payment Service</h6>
+                        <span id="status-payment" class="status-badge status-offline">Checking...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="customers" class="table-wrapper">
-            <h2>Customers</h2>
-            <table class="table table-striped">
-                <thead><tr><th>ID</th><th>Username</th><th>Email</th></tr></thead>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Registered Customers</h5>
+                <button class="btn btn-sm btn-primary" onclick="fetchCustomers()">Refresh</button>
+            </div>
+            <table class="table table-hover">
+                <thead class="table-dark"><tr><th>ID</th><th>Username</th><th>Email</th></tr></thead>
                 <tbody id="customers-table-body">
-                    <tr><td colspan="3">Loading...</td></tr>
+                    <tr><td colspan="3" class="text-center">Loading...</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <div id="order-history" class="table-wrapper">
-            <h2>Order History</h2>
-            <table class="table table-striped">
-                <thead><tr><th>Order ID</th><th>Customer ID</th><th>Product ID</th><th>Order Date</th></tr></thead>
+        <div id="products" class="table-wrapper">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Product Inventory</h5>
+                <button class="btn btn-sm btn-primary" onclick="fetchProducts()">Refresh</button>
+            </div>
+            <table class="table table-hover">
+                <thead class="table-dark"><tr><th>ID</th><th>Name</th><th>Type</th><th>Price</th><th>Stock</th></tr></thead>
+                <tbody id="products-table-body">
+                    <tr><td colspan="5" class="text-center">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="orders" class="table-wrapper">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Recent Orders</h5>
+                <button class="btn btn-sm btn-primary" onclick="fetchOrders()">Refresh</button>
+            </div>
+            <table class="table table-hover">
+                <thead class="table-dark"><tr><th>Order ID</th><th>Customer ID</th><th>Product ID</th><th>Date & Time</th></tr></thead>
                 <tbody id="orders-table-body">
-                    <tr><td colspan="4">Loading...</td></tr>
+                    <tr><td colspan="4" class="text-center">Loading...</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // URLs for your Azure Services
+        // Microservices Azure URLs
         const USER_SERVICE_URL = 'https://fashion-user-service-audqffe9dve4dscm.southeastasia-01.azurewebsites.net';
         const ORDER_SERVICE_URL = 'https://fashion-order-service-gxgugehgfshngyc9.southeastasia-01.azurewebsites.net';
+        const PRODUCT_SERVICE_URL = 'https://fashion-product-service-b7atcad9dfe8g5e3.southeastasia-01.azurewebsites.net';
+        const PAYMENT_SERVICE_URL = 'https://fashion-payment-service-hhfghcg8bya6fvd9.southeastasia-01.azurewebsites.net';
 
-        // Check if admin is logged in
+        // Authentication Check
         if (localStorage.getItem('isAdminLoggedIn') !== 'true') {
             window.location.href = 'admin_login.html';
         }
@@ -64,47 +121,111 @@
             window.location.href = 'admin_login.html';
         }
 
+        // Sidebar Navigation Logic
+        function showSection(sectionId) {
+            document.querySelectorAll('.table-wrapper').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.sidebar a').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById(`nav-${sectionId}`).classList.add('active');
+
+            const titles = {
+                'dashboard': 'System Health & APIs',
+                'customers': 'Customer Management',
+                'products': 'Product Inventory',
+                'orders': 'Order Management'
+            };
+            document.getElementById('page-title').innerText = titles[sectionId];
+
+            // Fetch data dynamically when tab is clicked
+            if(sectionId === 'dashboard') checkSystemHealth();
+            if(sectionId === 'customers') fetchCustomers();
+            if(sectionId === 'products') fetchProducts();
+            if(sectionId === 'orders') fetchOrders();
+        }
+
+        // --- 1. System Health Checker ---
+        async function checkSystemHealth() {
+            const services = [
+                { id: 'status-user', url: `${USER_SERVICE_URL}/api/customers` },
+                { id: 'status-product', url: `${PRODUCT_SERVICE_URL}/api/products` },
+                { id: 'status-order', url: `${ORDER_SERVICE_URL}/api/orders` },
+                { id: 'status-payment', url: `${PAYMENT_SERVICE_URL}/api/payment/status` }
+            ];
+
+            services.forEach(async (service) => {
+                const element = document.getElementById(service.id);
+                try {
+                    const res = await fetch(service.url, { method: 'GET', timeout: 5000 });
+                    if (res.ok) {
+                        element.innerText = 'ONLINE';
+                        element.className = 'status-badge status-online';
+                    } else {
+                        throw new Error('API returning error');
+                    }
+                } catch (error) {
+                    element.innerText = 'OFFLINE';
+                    element.className = 'status-badge status-offline';
+                }
+            });
+        }
+
+        // --- 2. Fetch Customers (User Service) ---
         async function fetchCustomers() {
+            const tbody = document.getElementById('customers-table-body');
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center">Loading...</td></tr>';
             try {
-                // Ensure your User Service app.py has a GET /api/customers endpoint
                 const res = await fetch(`${USER_SERVICE_URL}/api/customers`);
                 const customers = await res.json();
-                const tbody = document.getElementById('customers-table-body');
                 tbody.innerHTML = '';
-                
-                if(customers.length === 0) tbody.innerHTML = '<tr><td colspan="3">No customers found</td></tr>';
-                
+                if(customers.length === 0) tbody.innerHTML = '<tr><td colspan="3" class="text-center">No customers found</td></tr>';
                 customers.forEach(c => {
-                    tbody.innerHTML += `<tr><td>${c.customer_id}</td><td>${c.username}</td><td>${c.email}</td></tr>`;
+                    tbody.innerHTML += `<tr><td>#${c.customer_id}</td><td>${c.username}</td><td>${c.email}</td></tr>`;
                 });
             } catch (err) {
-                console.error("Error fetching customers:", err);
-                document.getElementById('customers-table-body').innerHTML = '<tr><td colspan="3" class="text-danger">Failed to load</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">Failed to load data</td></tr>';
             }
         }
 
+        // --- 3. Fetch Products (Product Service) ---
+        async function fetchProducts() {
+            const tbody = document.getElementById('products-table-body');
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center">Loading...</td></tr>';
+            try {
+                const res = await fetch(`${PRODUCT_SERVICE_URL}/api/products`);
+                const products = await res.json();
+                tbody.innerHTML = '';
+                if(products.length === 0) tbody.innerHTML = '<tr><td colspan="5" class="text-center">No products found</td></tr>';
+                products.forEach(p => {
+                    // Highlight low stock
+                    const stockDisplay = p.quantity <= 5 ? `<span class="text-danger fw-bold">${p.quantity} (Low)</span>` : p.quantity;
+                    tbody.innerHTML += `<tr><td>#${p.product_id}</td><td>${p.product_name}</td><td>${p.product_type || 'N/A'}</td><td>PKR ${p.price}</td><td>${stockDisplay}</td></tr>`;
+                });
+            } catch (err) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Failed to load data</td></tr>';
+            }
+        }
+
+        // --- 4. Fetch Orders (Order Service) ---
         async function fetchOrders() {
+            const tbody = document.getElementById('orders-table-body');
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center">Loading...</td></tr>';
             try {
                 const res = await fetch(`${ORDER_SERVICE_URL}/api/orders`);
                 const orders = await res.json();
-                const tbody = document.getElementById('orders-table-body');
                 tbody.innerHTML = '';
-                
-                if(orders.length === 0) tbody.innerHTML = '<tr><td colspan="4">No orders found</td></tr>';
-
+                if(orders.length === 0) tbody.innerHTML = '<tr><td colspan="4" class="text-center">No orders found</td></tr>';
                 orders.forEach(o => {
-                    tbody.innerHTML += `<tr><td>${o.order_id}</td><td>${o.customer_id}</td><td>${o.product_id}</td><td>${new Date(o.order_date).toLocaleString()}</td></tr>`;
+                    tbody.innerHTML += `<tr><td>#${o.order_id}</td><td>#${o.customer_id}</td><td>#${o.product_id}</td><td>${new Date(o.order_date).toLocaleString()}</td></tr>`;
                 });
             } catch (err) {
-                console.error("Error fetching orders:", err);
-                document.getElementById('orders-table-body').innerHTML = '<tr><td colspan="4" class="text-danger">Failed to load</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Failed to load data</td></tr>';
             }
         }
 
-        // Load data when page loads
+        // Initial Load
         window.onload = () => {
-            fetchCustomers();
-            fetchOrders();
+            checkSystemHealth();
         };
     </script>
 </body>
